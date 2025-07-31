@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout | HOODIE THRIFT STORE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">🧥 HOODIE THRIFT STORE</h1>
+      <a href="index.html" class="text-blue-500 hover:text-blue-700 font-medium">← Home</a>
+    </div>
+  </header>
+
+  <!-- Checkout Section -->
+  <section class="max-w-4xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-semibold mb-6">Checkout</h2>
+
+    <!-- Cart Summary -->
+    <div class="bg-white p-6 rounded-lg shadow mb-8">
+      <h3 class="text-lg font-bold mb-4">Order Summary</h3>
+      <div id="checkout-items" class="space-y-4"></div>
+      <div class="mt-4 text-right">
+        <p class="text-xl font-semibold">Total: R<span id="checkout-total">0.00</span></p>
+      </div>
+    </div>
+
+    <!-- Checkout Form -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h3 class="text-lg font-bold mb-4">Customer Details</h3>
+      <form id="checkout-form" class="space-y-4">
+        <input type="text" placeholder="Full Name" required class="w-full p-3 border rounded" />
+        <input type="email" placeholder="Email Address" required class="w-full p-3 border rounded" />
+        <textarea placeholder="Shipping Address" required class="w-full p-3 border rounded h-28"></textarea>
+        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold">
+          Place Order
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-md py-4 text-center text-sm text-gray-500">
+    © 2025 HOODIE THRIFT STORE. All rights reserved.
+  </footer>
+
+  <!-- JavaScript: Load Cart Summary & Handle Checkout -->
+  <script>
+    const itemsContainer = document.getElementById("checkout-items");
+    const totalDisplay = document.getElementById("checkout-total");
+    const form = document.getElementById("checkout-form");
+
+    function loadCheckoutItems() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let total = 0;
+
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = "<p class='text-gray-600'>Your cart is empty.</p>";
+        totalDisplay.textContent = "0.00";
+        form.style.display = "none";
+        return;
+      }
+
+      cart.forEach(item => {
+        total += item.price;
+
+        const itemEl = document.createElement("div");
+        itemEl.className = "flex justify-between border-b pb-2";
+
+        itemEl.innerHTML = `
+          <span>${item.name}</span>
+          <span>R${item.price.toFixed(2)}</span>
+        `;
+
+        itemsContainer.appendChild(itemEl);
+      });
+
+      totalDisplay.textContent = total.toFixed(2);
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("🎉 Thank you for your order! We’ll contact you soon.");
+      localStorage.removeItem("cart");
+      window.location.href = "index.html";
+    });
+
+    window.onload = loadCheckoutItems;
+  </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hoodie Details | HOODIE THRIFT STORE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">🧥 HOODIE THRIFT STORE</h1>
+      <nav>
+        <a href="cart.html" class="text-blue-500 hover:text-blue-700 font-medium">🛒 Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="product-detail" class="max-w-6xl mx-auto px-4 py-12"></section>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-md py-4 text-center text-sm text-gray-500">
+    © 2025 HOODIE THRIFT STORE. All rights reserved.
+  </footer>
+
+  <script>
+    const products = [
+      {
+        id: "1",
+        name: "Classic Grey Hoodie",
+        price:350.00,
+        desc: "A timeless, comfy grey hoodie made from sustainable materials. Perfect for casual wear and layering in winter.",
+        img: "images/images (3).jpeg",
+        alt: "Classic Grey Hoodie"
+      },
+      {
+        id: "2",
+        name: "Vintage Black Hoodie",
+        price:350.00,
+        desc: "Sleek black zip-up hoodie with a soft interior, perfect for an active lifestyle or casual comfort.",
+        img: "images/images.jpeg",
+        alt: "Vintage Black Hoodie"
+      },
+      {
+        id: "3",
+        name: "Blue Hoodie",
+        price:350.00,
+        desc: "Soft blue pullover hoodie, cozy and warm, made with premium cotton fabric.",
+        img: "images/download.jpeg",
+        alt: "Blue Hoodie"
+      },
+      {
+        id: "4",
+        name: "Red Hoodie",
+        price:350.00,
+        desc: "Vibrant red hoodie designed for sports, with breathable fabric and moisture-wicking technology.",
+        img: "images/download (1).jpeg",
+        alt: "Red Hoodie"
+      },
+      {
+        id: "5",
+        name: "Green Hoodie",
+        price:350.00,
+        desc: "Eco-friendly hoodie made with recycled materials, in a fresh green shade.",
+        img: "images/download (2).jpeg",
+        alt: "Green Hoodie"
+      },
+      {
+        id: "6",
+        name: "Yellow Hoodie",
+        price:350.00,
+        desc: "Light yellow hoodie perfect for cool summer evenings, made from breathable fabric.",
+        img: "images/images (1).jpeg",
+        alt: "Yellow Hoodie"
+      },
+      {
+        id: "7",
+        name: "Orange Hoodie",
+        price:350.00,
+        desc: "Bright orange hoodie that brings energy and style to your wardrobe.",
+        img: "images/images (2).jpeg",
+        alt: "Orange Hoodie"
+      },
+      {
+        id: "8",
+        name: "Purple Hoodie",
+        price:350.00,
+        desc: "Bold purple hoodie with streetwear vibes, durable and stylish for everyday wear.",
+        img: "images/images (3).jpeg",
+        alt: "Purple Hoodie"
+      }
+    ];
+
+    // Get product ID from URL parameters
+    function getProductId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    // Render product details on the page
+    function renderProduct(product) {
+      const container = document.getElementById('product-detail');
+      if (!product) {
+        container.innerHTML = '<p class="text-center text-red-500">Product not found.</p>';
+        return;
+      }
+      container.innerHTML = `
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="flex-1">
+            <img src="${product.img}" alt="${product.alt}" class="w-full h-72 object-cover rounded-lg shadow-md" />
+          </div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold mb-2">${product.name}</h2>
+            <p class="text-lg text-gray-600 mb-4">R${product.price.toFixed(2)}</p>
+            <p class="text-gray-700 mb-6">${product.desc}</p>
+            <button onclick="addToCart('${product.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Add product to cart and save in localStorage
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) {
+        alert("Product not found!");
+        return;
+      }
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push({ name: product.name, price: Number(product.price) }); // Keep price as number
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${product.name} added to cart!`);
+    }
+
+    // On page load
+    const productId = getProductId();
+    const product = products.find(p => p.id === productId);
+    renderProduct(product);
+  </script>
+</body>
+</html>
